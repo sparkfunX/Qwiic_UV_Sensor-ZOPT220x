@@ -5,7 +5,7 @@
   Date: April 4th, 2017
   License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
 
-  Read the UVB readings (temperature compensated).
+  This example outputs both the UVB and ALS readings by switching modes.
 
   The ZOPT2201 sensor detects UVB + Ambient Light Sensor (ALS)
   The ZOPT2202 sensor detects UVA + UVB
@@ -40,7 +40,7 @@ void setup()
 {
   Serial.begin(9600);
   while (!Serial);
-  Serial.println("ZOPT220x Read Example");
+  Serial.println("ZOPT220x Read UVB+ALS Example");
 
   Wire.begin();
 
@@ -51,52 +51,39 @@ void setup()
   }
   Serial.println("ZOPT220x online!");
 
-  //enableUVBSensing(); //UVB + UV_COMP channels activated
-  enableALSSensing(); //ALS + COMP channels activated
-  //enableRawSensing(); //All the channels. No temperature compensation
-
-  //setMeasurementRate(0); //25ms
-  //setResolution(5); //13 bit, fast read
-  
-  //setGain(1); //Default for ALS
-  //setGain(4); //Default for UVB
+  setMeasurementRate(2); //100ms default
 }
 
 void loop()
 {
-  if (dataAvailable())
-  {
-    /*byte gain = 3; //4 is what it should be
-    byte resolution = 1; //0 for best results but 400ms read time required
-    long uvtest = 38756;
+  long startTime = millis(); //Start the stopwatch
+  
+  //Get UVB first
+  setResolution(2); //18 bit, 100ms, default
+  setGain(4); //Recommended for UVB
+  enableUVBSensing(); //UVB + UV_COMP channels activated
 
-    getUVIndex(uvtest, gain, resolution);*/
+  while (!dataAvailable())
+    delay(10); //Wait for data to come in
 
-    //while(1);
-    /*Wire.beginTransmission(0x53);
-      Wire.write(0x0D);
-      Wire.endTransmission();
+  long uvb = getUVB();
 
-      Wire.requestFrom(0x53, 12);
-      delay(25);
-      for (int x = 0 ; x < 12 ; x++)
-      {
-      Serial.print(x);
-      Serial.print("[");
-      Serial.print(Wire.read());
-      Serial.print("] ");
-      }*/
+  //Now switch to ALS mode
+  setResolution(2); //18 bit, 100ms, default
+  setGain(1); //Default for ALS
+  enableALSSensing(); //ALS + COMP channels activated
 
-    //long uvb = getUVB();
-    //Serial.print("UVB: ");
-    //Serial.print(uvb);
+  while (!dataAvailable())
+    delay(10); //Wait for data to come in
 
-    long als = getALS();
-    Serial.print(" ALS: ");
-    Serial.print(als);
+  long als = getALS();
 
-    Serial.println();
-  }
-
-  delay(1);
+  Serial.print("UVB[");
+  Serial.print(uvb);
+  Serial.print("] Ambient Light[");
+  Serial.print(als);
+  Serial.print("] measurement time[");
+  Serial.print(millis() - startTime);
+  Serial.print("]");
+  Serial.println();
 }

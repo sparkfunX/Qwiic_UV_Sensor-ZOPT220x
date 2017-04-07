@@ -69,15 +69,84 @@ float getUVIndex(void)
   }
 
   long uvb = getUVB(); //Get new data
-  float uvIndex = getAdjustedUVIndex(uvb, 4, 0); //Assumes default for UVI of gain:4, resolution:0
+  float uvIndex = getAdjustedUVIndex(uvb, 4, 0, 1.0); //Assumes default for UVI of gain:4, resolution:0, uviCorrection of 1.0
   return(uvIndex);
 }
 
 //Given UVB reading, and gain and resolution settings, outputs UV index
 //From App note UV Index Calculation from IDT
-float getAdjustedUVIndex(long UVB, byte gain, byte resolution)
+float getAdjustedUVIndex(long UVB, byte gain, byte resolution, float uviCorrection)
 {
   byte gainMode = 0; //gain is 0 to 4, gainMode is mapped 1 to 18
+  byte resolutionMode = 0; //resolution is 0 to 5, resolutionMode is mapped 20bit to 13bit
+
+  //Convert the 5 gain settings to gainMode
+  switch (gain)
+  {
+    case 0: gainMode = 1; break;
+    case 1: gainMode = 3; break;
+    case 2: gainMode = 6; break;
+    case 3: gainMode = 9; break;
+    case 4: gainMode = 18; break;
+    default: gainMode = 18; break; //Unknown state
+  }
+
+  //Convert the 6 resolution settings to resolutionMode
+  switch (resolution)
+  {
+    case 0: resolutionMode = 20; break; //20-bit
+    case 1: resolutionMode = 19; break;
+    case 2: resolutionMode = 18; break;
+    case 3: resolutionMode = 17; break;
+    case 4: resolutionMode = 16; break;
+    case 5: resolutionMode = 13; break; //13-bit
+    default: resolutionMode = 20; break; //Unknown state
+  }
+
+  long uvAdjusted = 18 / gainMode * pow(2, 20 - resolutionMode) * UVB;
+
+  float uvIndex = uvAdjusted / (5500.0 * uviCorrection);
+
+  return(uvIndex);
+}
+
+//Given location and time, calculation current elevation of sun
+//Get true UVI
+//The uvi correction value is default 1. If you want to calculate the actual
+//solar angle you'll need lat/long/day/hh/mm
+//From App note UV Index Calculation from IDT
+float getElevationAdjustedUVIndex(float longitude, float latitude, int day, byte hour, byte minute)
+{
+
+  byte counter = 0;
+  while(!dataAvailable())
+  {
+    delay(10);
+    if(counter++ > 50) //We should have a reading in 400ms
+    {
+      //We've timed out waiting for the data. Return error
+      return(-1.0);
+    }
+  }
+
+  long uvb = getUVB(); //Get new data
+  float uvIndex = getAdjustedUVIndex(uvb, 4, 0, 1.0); //Assumes default for UVI of gain:4, resolution:0, uviCorrection of 1.0
+  return(uvIndex);
+  
+  //First we need to calculation the elevation angle
+  /*float elevationAngle = 
+
+  //Let's calculate the correction!
+  float c0 = 3.1543;
+  float c1 = -0.06204;
+  float c2 = 0.0002186;
+  float c3 = 0.0000035516;
+  uviCorrection = c0 * pow(elevation, 0);
+  uviCorrection += c1 * pow(elevation, 1);
+  uviCorrection += c2 * pow(elevation, 2);
+  uviCorrection += c3 * pow(elevation, 3);*/  
+  
+    byte gainMode = 0; //gain is 0 to 4, gainMode is mapped 1 to 18
   byte resolutionMode = 0; //resolution is 0 to 5, resolutionMode is mapped 20bit to 13bit
 
   //Convert the 5 gain settings to gainMode

@@ -5,7 +5,7 @@
   Date: April 4th, 2017
   License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
 
-  Read the UVB readings (temperature compensated).
+  This example outputs the current ambient light readings (temperature compensated).
 
   The ZOPT2201 sensor detects UVB + Ambient Light Sensor (ALS)
   The ZOPT2202 sensor detects UVA + UVB
@@ -40,7 +40,7 @@ void setup()
 {
   Serial.begin(9600);
   while (!Serial);
-  Serial.println("ZOPT220x Read Example");
+  Serial.println("ZOPT220x Read ALS Example");
 
   Wire.begin();
 
@@ -51,51 +51,20 @@ void setup()
   }
   Serial.println("ZOPT220x online!");
 
-  //enableUVBSensing(); //UVB + UV_COMP channels activated
   enableALSSensing(); //ALS + COMP channels activated
-  //enableRawSensing(); //All the channels. No temperature compensation
-
-  //setMeasurementRate(0); //25ms
-  //setResolution(5); //13 bit, fast read
   
-  //setGain(1); //Default for ALS
-  //setGain(4); //Default for UVB
+  setMeasurementRate(2); //100ms default
+  setResolution(2); //18 bit, 100ms, default
+  setGain(1); //Default for ALS
 }
 
 void loop()
 {
   if (dataAvailable())
   {
-    /*byte gain = 3; //4 is what it should be
-    byte resolution = 1; //0 for best results but 400ms read time required
-    long uvtest = 38756;
-
-    getUVIndex(uvtest, gain, resolution);*/
-
-    //while(1);
-    /*Wire.beginTransmission(0x53);
-      Wire.write(0x0D);
-      Wire.endTransmission();
-
-      Wire.requestFrom(0x53, 12);
-      delay(25);
-      for (int x = 0 ; x < 12 ; x++)
-      {
-      Serial.print(x);
-      Serial.print("[");
-      Serial.print(Wire.read());
-      Serial.print("] ");
-      }*/
-
-    //long uvb = getUVB();
-    //Serial.print("UVB: ");
-    //Serial.print(uvb);
-
     long als = getALS();
-    Serial.print(" ALS: ");
-    Serial.print(als);
-
-    Serial.println();
+    Serial.print("Ambient Light: ");
+    Serial.println(als);
   }
 
   delay(1);

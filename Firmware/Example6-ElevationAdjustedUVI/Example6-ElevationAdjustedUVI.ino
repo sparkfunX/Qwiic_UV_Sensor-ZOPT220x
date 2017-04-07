@@ -5,7 +5,8 @@
   Date: April 4th, 2017
   License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
 
-  Read the UVB readings (temperature compensated).
+  UV is very sensitive to the elevation of the sun.
+  Given a lat, long, day, hour, minute, get a very accurate, adjusted UV Index.
 
   The ZOPT2201 sensor detects UVB + Ambient Light Sensor (ALS)
   The ZOPT2202 sensor detects UVA + UVB
@@ -51,49 +52,22 @@ void setup()
   }
   Serial.println("ZOPT220x online!");
 
-  //enableUVBSensing(); //UVB + UV_COMP channels activated
-  enableALSSensing(); //ALS + COMP channels activated
-  //enableRawSensing(); //All the channels. No temperature compensation
-
-  //setMeasurementRate(0); //25ms
-  //setResolution(5); //13 bit, fast read
-  
-  //setGain(1); //Default for ALS
-  //setGain(4); //Default for UVB
+  enableUVBSensing(); //UVB + UV_COMP channels activated
 }
 
 void loop()
 {
   if (dataAvailable())
   {
-    /*byte gain = 3; //4 is what it should be
-    byte resolution = 1; //0 for best results but 400ms read time required
-    long uvtest = 38756;
+    float uvIndex = getAdjustedUVIndex(uvb, 4, 0); //Assumes default for UVI of gain:4, resolution:0
 
-    getUVIndex(uvtest, gain, resolution);*/
+    Serial.print("Elevation adjusted UV Index: ");
+    Serial.print(uvIndex);
 
-    //while(1);
-    /*Wire.beginTransmission(0x53);
-      Wire.write(0x0D);
-      Wire.endTransmission();
+    long uvb = getUVB();
+    Serial.print("UVB: ");
+    Serial.print(uvb);
 
-      Wire.requestFrom(0x53, 12);
-      delay(25);
-      for (int x = 0 ; x < 12 ; x++)
-      {
-      Serial.print(x);
-      Serial.print("[");
-      Serial.print(Wire.read());
-      Serial.print("] ");
-      }*/
-
-    //long uvb = getUVB();
-    //Serial.print("UVB: ");
-    //Serial.print(uvb);
-
-    long als = getALS();
-    Serial.print(" ALS: ");
-    Serial.print(als);
 
     Serial.println();
   }

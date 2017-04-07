@@ -77,6 +77,11 @@ float getUVIndex(void)
 //From App note UV Index Calculation from IDT
 float getAdjustedUVIndex(long UVB, byte gain, byte resolution)
 {
+  //UV = 18/gain * 2^(20 - resolution) * UVS_data
+  //UVI = uvi_coeff * UV / uvi_cor
+  //uvi_coeff = 1/5500
+  //uvi_cor = Sum(C0 + C1 + C2 + C3)
+
   byte gainMode = 0; //gain is 0 to 4, gainMode is mapped 1 to 18
   byte resolutionMode = 0; //resolution is 0 to 5, resolutionMode is mapped 20bit to 13bit
 
@@ -104,6 +109,8 @@ float getAdjustedUVIndex(long UVB, byte gain, byte resolution)
   }
 
   long uvAdjusted = 18 / gainMode * pow(2, 20 - resolutionMode) * UVB;
+  Serial.print("Adjusted UV: ");
+  Serial.println(uvAdjusted);
 
   //The correction value is default 1. If you want to calculate the actual
   //solar angle you'll need lat/long/day/hh/mm
@@ -123,6 +130,8 @@ float getAdjustedUVIndex(long UVB, byte gain, byte resolution)
   uviCorrection += c3 * pow(elevation, 3);*/  
   
   float uvIndex = uvAdjusted / (5500.0 * uviCorrection);
+  Serial.print("UV Index: ");
+  Serial.println(uvIndex, 1);
 
   return(uvIndex);
 }
