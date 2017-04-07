@@ -55,19 +55,31 @@ void setup()
   enableUVBSensing(); //UVB + UV_COMP channels activated
 }
 
+byte hour = 3 + 12; //3PM
+byte minute = 28;
+
 void loop()
 {
   if (dataAvailable())
   {
-    float uvIndex = getAdjustedUVIndex(uvb, 4, 0); //Assumes default for UVI of gain:4, resolution:0
+    //April 7th, 2017 3:28PM
+    int day = 97; //Jan 01 = 1. From: https://www.epochconverter.com/daynumbers
+    hour++;
+    minute++;
+
+    //Obtained from google maps. Right click on map -> What's here? gives lat/long of SparkFun HQ
+    //Must be in degrees
+    float latitude = 40.090579; //N is positive
+    float longitude = -105.184831; //W is negative
+
+    float elevationAdjustedUVIndex = getElevationAdjustedUVIndex(latitude, longitude, day, hour, minute);
 
     Serial.print("Elevation adjusted UV Index: ");
-    Serial.print(uvIndex);
+    Serial.print(elevationAdjustedUVIndex);
 
     long uvb = getUVB();
     Serial.print("UVB: ");
     Serial.print(uvb);
-
 
     Serial.println();
   }
