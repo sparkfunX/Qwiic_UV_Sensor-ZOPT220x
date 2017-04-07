@@ -8,7 +8,7 @@
 </settings>
 <grid distance="0.05" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.005" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
@@ -23,22 +23,22 @@
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
 <layer number="15" name="Route15" color="4" fill="6" visible="no" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="yes"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="16" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="14" fill="1" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="14" fill="1" visible="no" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="yes"/>
-<layer number="31" name="tCream" color="7" fill="4" visible="no" active="yes"/>
+<layer number="31" name="tCream" color="7" fill="4" visible="yes" active="yes"/>
 <layer number="32" name="bCream" color="7" fill="5" visible="no" active="yes"/>
 <layer number="33" name="tFinish" color="6" fill="3" visible="no" active="yes"/>
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="yes"/>
@@ -168,9 +168,9 @@
 <text x="15.24" y="2.54" size="1.016" layer="22" font="vector" ratio="15" rot="MR90" align="center-left">SCL</text>
 <text x="17.78" y="2.54" size="1.016" layer="22" font="vector" ratio="15" rot="MR90" align="center-left">!INT</text>
 <text x="7.62" y="2.54" size="1.016" layer="22" font="vector" ratio="15" rot="MR90" align="center-left">GND</text>
-<text x="12.827" y="22.86" size="1.016" layer="21" font="vector" ratio="15" rot="SR0" align="center">ZOPT220x
+<text x="12.827" y="22.86" size="1.016" layer="21" font="vector" ratio="15" rot="SR0" align="center">ZOPT2201
 UV Index Sensor</text>
-<text x="12.573" y="22.86" size="1.016" layer="22" font="vector" ratio="15" rot="SMR0" align="center">ZOPT220x
+<text x="12.573" y="22.86" size="1.016" layer="22" font="vector" ratio="15" rot="SMR0" align="center">ZOPT2201
 UV Index Sensor</text>
 <text x="2.413" y="1.27" size="1.27" layer="16" font="vector" ratio="15" rot="MR0" align="center">X01</text>
 </plain>
@@ -634,9 +634,8 @@ We've spent an enormous amount of time creating and checking these footprints an
 &lt;br&gt;
 You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
 <packages>
-<package name="1X01NS_KIT">
-<description>&lt;h3&gt;Plated Through Hole - No Silk Outline Kit Version&lt;/h3&gt;
-&lt;p&gt; Mask on only one side to make soldering in kits easier.
+<package name="1X01_NO_SILK">
+<description>&lt;h3&gt;Plated Through Hole - No Silk Outline&lt;/h3&gt;
 &lt;p&gt;Specifications:
 &lt;ul&gt;&lt;li&gt;Pin count:1&lt;/li&gt;
 &lt;li&gt;Pin pitch:0.1"&lt;/li&gt;
@@ -644,11 +643,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 &lt;p&gt;Example device(s):
 &lt;ul&gt;&lt;li&gt;CONN_01&lt;/li&gt;
 &lt;/ul&gt;&lt;/p&gt;</description>
-<pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90" stop="no"/>
-<circle x="0" y="0" radius="0.508" width="0" layer="29"/>
-<circle x="0" y="0" radius="0.9398" width="0" layer="30"/>
+<pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" rot="R90"/>
 <text x="-1.27" y="1.143" size="0.6096" layer="25" font="vector" ratio="20">&gt;NAME</text>
-<text x="-1.27" y="-1.016" size="0.6096" layer="27" font="vector" ratio="20" align="top-left">&gt;VALUE</text>
+<text x="-1.27" y="-1.778" size="0.6096" layer="27" font="vector" ratio="20">&gt;VALUE</text>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
 </package>
 </packages>
 </library>
@@ -1113,14 +1111,19 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <element name="J3" library="SparkX" package="1X04_NO_SILK" value="PTH" x="7.62" y="1.27"/>
 <element name="FRAME1" library="SparkFun-Aesthetics" package="CREATIVE_COMMONS" value="FRAME-LETTER" x="-20.32" y="-17.78"/>
 <element name="U$2" library="SparkX" package="SPARKX-MEDIUM" value="SPARKX-LOGO4" x="12.7" y="19.685"/>
-<element name="C4" library="SparkFun-Capacitors" package="0603" value="0.1uF" x="16.51" y="12.7" rot="R270">
+<element name="C4" library="SparkFun-Capacitors" package="0603" value="0.1uF" x="16.51" y="12.7" smashed="yes" rot="R270">
 <attribute name="PROD_ID" value="CAP-00810" x="16.51" y="12.7" size="1.778" layer="27" font="vector" ratio="15" rot="R270" display="off"/>
+<attribute name="NAME" x="17.272" y="12.7" size="0.6096" layer="25" font="vector" ratio="20" rot="R270" align="bottom-center"/>
+<attribute name="VALUE" x="15.748" y="12.7" size="0.6096" layer="27" font="vector" ratio="20" rot="R270" align="top-center"/>
 </element>
 <element name="J4" library="SparkX" package="1X04_1MM_RA" value="SMD" x="20.32" y="12.7" rot="R90"/>
 <element name="LOGO1" library="SparkFun-Aesthetics" package="OSHW-LOGO-MINI" value="OSHW-LOGOMINI" x="2.54" y="3.81" rot="MR0"/>
 <element name="U$1" library="SparkX" package="SPARKX-MEDIUM" value="SPARKX-LOGO4" x="12.7" y="19.685" rot="MR0"/>
-<element name="U1" library="SparkX" package="LGA6" value="ZOPT220X" x="12.7" y="12.7"/>
-<element name="J5" library="SparkFun-Connectors" package="1X01NS_KIT" value="" x="17.78" y="1.27"/>
+<element name="U1" library="SparkX" package="LGA6" value="ZOPT220X" x="12.7" y="12.7" smashed="yes">
+<attribute name="NAME" x="13.97" y="12.954" size="0.508" layer="25" ratio="15"/>
+<attribute name="VALUE" x="10.922" y="10.541" size="0.508" layer="27" ratio="15"/>
+</element>
+<element name="J5" library="SparkFun-Connectors" package="1X01_NO_SILK" value="" x="17.78" y="1.27"/>
 </elements>
 <signals>
 <signal name="3.3V">
